@@ -11,7 +11,7 @@ class MainViewModel : ViewModel() {
     private val _translateResult: MutableLiveData<String> = MutableLiveData()
     val translateResult: LiveData<String>
         get() = _translateResult
-
+    var word:String=""
     fun translate(word: String) {
         /**
          * 使用挂起函数需要一个入口，这个入口设置在了这个viewModel 里
@@ -24,7 +24,8 @@ class MainViewModel : ViewModel() {
                     _translateResult.value = result.data!!.translateResult[0][0].tgt
                 }
                 is ApiResult.Failure -> {
-                    _translateResult.value = "errorCode: ${result.errorCode} errorMsg: ${result.errorMsg}"
+                    _translateResult.value =
+                        "errorCode: ${result.errorCode} errorMsg: ${result.errorMsg}"
                 }
             }
         }

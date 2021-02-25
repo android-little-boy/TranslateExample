@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Retrofit+Coroutine Translate</string>
+    <string name="translate">翻译</string>
+    <string name="hint">请输入你要翻译的内容</string>
 </resources>

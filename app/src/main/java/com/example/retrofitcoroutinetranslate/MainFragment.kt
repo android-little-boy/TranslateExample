@@ -9,13 +9,9 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.retrofitcoroutinetranslate.databinding.MainFragmentBinding
 
 class MainFragment : Fragment() {
-
-    lateinit var textview: TextView
-    lateinit var editText: EditText
-    lateinit var button: Button
-    lateinit var word:String
 
     companion object {
         fun newInstance() = MainFragment()
@@ -25,27 +21,19 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        val viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        val mainFragmentBinding = MainFragmentBinding.inflate(inflater, container, false)
+        mainFragmentBinding.data = viewModel
+        mainFragmentBinding.lifecycleOwner = this  //缺了这步就不会自动更新数据
+        return mainFragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        textview = view.findViewById(R.id.textview)
-        editText = view.findViewById(R.id.editTextTextMultiLine)
-        button = view.findViewById(R.id.button)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-        viewModel.translateResult.observe(viewLifecycleOwner) {
-            textview.text = "原词:    $word \n翻译:    $it"
-        }
-        button.setOnClickListener {
-            word = editText.text.toString()
-            viewModel.translate(word)
-        }
-
     }
 
 
